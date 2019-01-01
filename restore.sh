@@ -31,14 +31,14 @@ for file in "$@"
 	else
 		if ! [ -e $(fgrep $file .remove.info | cut -d '_' -f1) ]
 		then
-			mv deleted/$file $(fgrep $file .remove.info | cut -d '_' -f1)
+			mv deleted/$file $(fgrep $file .remove.info | rev | cut -d '_' -f2- | rev)
 			sed -i /$file/d .remove.info
 		else
 			echo File with same name $file already exists! Are you sure you want to overwrite[y/n]?
 			read response
 			if [ $response = 'y' -o $response = 'Y' -o $response = 'Yes' -o $response = 'yes' ]
 			then
-				mv deleted/$file $(fgrep $file .remove.info | cut -d '_' -f1)
+				mv deleted/$file $(fgrep $file .remove.info | rev | cut -d '_' -f2- | rev)
 				sed -i /$file/d .remove.info
 			elif [ $response = 'n' -o $response = 'N' -o $response = 'No' -o $response = 'no' ]
 			then
